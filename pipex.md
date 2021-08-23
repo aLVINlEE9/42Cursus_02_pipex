@@ -9,6 +9,7 @@
  ```{.bash}
  < file1 cmd1 | cmd2 > file2 
  ```
+<br>
 
 ## Redirection
 
@@ -51,3 +52,5 @@ cmd1 | cmd2
 cmd1 > temp_file && cmd2 < temp_file
 ```
 > 둘은 같은 역할
+
+> https://rottk.tistory.com/entry/Redirection과-Pipe의-차이가-무엇인가요
