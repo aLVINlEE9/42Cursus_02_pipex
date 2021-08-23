@@ -1,5 +1,28 @@
-# PIPEX
+# PIPEX 정리
 
 ## 문제
 
-./pipex file1 cmd1 cmd2 file2
+ ```{.bash}
+ ./pipex file1 cmd1 cmd2 file2
+ ```
+위와 같이 실행했을 때, 아래 쉘 명령어와 같은 동작을 하도록 하는 프로그램 `pipex` 만들기.
+ ```{.bash}
+ < file1 cmd1 | cmd2 > file2 
+ ```
+
+## Redirection
+
+#### `<` : 지정된 파일의 내용을 표준 입력으로 넘겨줌.
+
+#### `>` : 반대로 표준 출력에 전달된 내용을 지정된 파일로 넘겨줌. 
+
+#### 에시
+
+```{.bash}
+ < in wc > out
+ ```
+> in 의 내용을 wc 명령어 한테 표준 입력으로 넘겨줌 
+
+> 그 출력된 표준 출력을 out파일에 넘겨줌
+
+> 결과 : [in(내용) wc ] 의 표준 출력이 out 파일에 저장됨
