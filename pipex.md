@@ -31,9 +31,30 @@
 		```c
 		pid_t fork(void);
 		```
+		- 작동방식
+		> fork()를 실행하면 fork 함수가 실행 된 직후에 자식 프로세스 부모 프로레스와 동일한 주소 공간의 복사본을 가지게 됩니다.
 		
+		> 부모 프로세스에서는 자식 프로세스의 PID값을 반환 받음
 		
+		> 부모 프로세스가 끝나면 자식프로세스 실행
+
+		> 참고 : https://codetravel.tistory.com/23
 	- pipe
+
+		- 의존성
+		```c
+		#include <unistd.h>
+		```
+		- 함수원형
+		```c
+		int pipe(int fd[2]);		
+		```
+		> 파일디스크립터 fd[1]은 쓰기용 파이프, fd[0]은 읽기용 파이프
+	
+		> ![R1280x0](https://user-images.githubusercontent.com/74805318/130620962-3455ba4f-9ad5-4d04-8f87-7eb75746aaaa.png)
+
+		
+		> 참고 : https://reakwon.tistory.com/80
 	- dup, dup2
 
 		- 의존성
@@ -71,7 +92,6 @@
 
 	- execve
 
-		execve는 filename이 가리키는 파일을 실행한다. 이 파일은 바이너리 실행파일이거나 스크립트 파일이여야 한다. argv와 envp는 포인터 배열로 filename의 인자로 들어간다. 마지막에 NULL문자열을 저장해야 한다.
 
 		- 의존성
 		```c
@@ -81,6 +101,21 @@
 		```c
 		int execve(const char *filename, char * const *argv, char * const *envp);
 		```
+		
+		> execve는 filename이 가리키는 파일을 실행한다. 이 파일은 바이너리 실행파일이거나 스크립트 파일이여야 한다. argv와 envp는 포인터 배열로 filename의 인자로 들어간다. 마지막에 NULL문자열을 저장해야 한다.
+		
+		> 유닉스, 리눅스 시스템 콜 중 하나
+		=덮어씌움
+		exec() 시스템 콜을 호출한 현재 프로세스 공간의 TEXT, DATA, BSS 영역을 새로운 프로세스의 이미지로 덮어씌운다.
+		별도의 프로세스 공간을 만들지 않는다.
+
+		> 프로세스 안에 있는 exec() 시스템 콜 실행을 하면 새로운 프로세스를 만드는 것이 아니라 
+		현재 만들어진 exec 인자에 들어가 있는 프로그램 실행 파일을 읽어서  
+		현재 부모 프로세스 공간의 exec 인자에 있는 실행파일에 대한  
+		TEXT, DATA, BSS 영역을 덮어 씌운다. (HEAP, STACK 은 동적영역이기 때문) 
+		새로운 정보가 덮어씌워진다.
+		exec 계열 함수는 현재 프로세스 이미지를 별도 메모리 공간에 복사하지 않는다.
+		
 	- wait, waitpid
 		- 의존성
 		```c
