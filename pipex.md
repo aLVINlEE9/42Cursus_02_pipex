@@ -10,6 +10,7 @@
  < file1 cmd1 | cmd2 > file2 
  ```
 <br>
+<br>
 
 ## Objects
 
@@ -30,6 +31,7 @@
 
 > 결과 : [in(내용) wc ] 의 표준 출력이 out 파일에 저장됨
 
+<br>
 
 ### Pipe
 
@@ -57,10 +59,14 @@ cmd1 > temp_file && cmd2 < temp_file
 
 > https://rottk.tistory.com/entry/Redirection과-Pipe의-차이가-무엇인가요
 
+<br>
+<br>
 
 ## Implementing
 
-### file1 to stdin
+### Redirection
+
+#### file1 to stdin
 
 `file1`을 열어서 표준 입력으로 보내는 단계. `open()`으로 얻은 `fd`를 `dup2()`를 이용해 표준입력(`STDIN_FILENO` = `0`)으로 복사하고, `file1`을 닫음.
 
@@ -90,7 +96,7 @@ int main(int argc, char const *argv[])
 }
 ```
 
-### stdout to file2
+#### stdout to file2
 
 표준 출력에 있는 스트림을 `file2`로 보내는 단계. 표준 출력의 내용이 파일에 기록되도록 `file2`의 `fd`를 `STDOUT_FILENO`(= `1`)에 복사하고, `file2`를 닫음.
 
@@ -119,3 +125,34 @@ int main(int argc, char const *argv[])
 	return (0);
 }
 ```
+
+##### <perror 함수>
+
+오류 상황을 표준오류스트림(stderr)에 출력하기 위한 라이브러리 함수다
+
+- 의존성
+```c
+#include <stdio.h>
+```
+- 함수원형
+```c
+void perror(const char *str);
+```
+
+- 작동방식
+> 시스템 호출이 실패하면 오류 코드를 전역변수 errno에 저장한다.
+
+> 그리고 역시 전역변수 sys_errlist[errno]에 적절한 오류 메시지가 저장되어 있다.
+
+> 그것을 인수로 받은 str과 함께 출력해줌
+
+
+##### <dup2 함수>
+
+
+> 참고 https://reakwon.tistory.com/104
+##### execve 함수
+
+<br>
+
+### Pipe
