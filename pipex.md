@@ -1,6 +1,6 @@
 # PIPEX 정리
 
-## 문제
+## Subject
 
  ```{.bash}
  ./pipex file1 cmd1 cmd2 file2
@@ -9,6 +9,70 @@
  ```{.bash}
  < file1 cmd1 | cmd2 > file2 
  ```
+### 사전지식
+
+- 멀티 프로세스 프로그래밍
+
+
+- 파이프 시스템 콜
+
+
+- file descriptor 관리 시스템
+
+
+- 여러 함수들의 사용 방법
+	- fork
+	- pipe
+	- dup, dup2
+
+		- 의존성
+		```c
+		#include <unistd.h>
+		```
+		- 함수원형
+		```c
+		int dup(int fd);
+		```
+		```c
+		int dup2(int fd, int fd2);
+		```
+
+		- 작동방식 (dup)
+		> fd로 전달받은 파일 서술자를 복제하여 반환합니다. dup가 돌려주는 파일 서술자는 가장 낮은 서술자를 반환합니다. 성공시 새 파일 서술자, 오류시 -1을 반환합니다.
+		
+		> dup 함수에 넣은 fd 의 File descriptor를 복사하여 새로운 File desciptor의 가장 낮은 FD Table 의 index로 반환
+
+		- 작동방식 (dup2)
+		> 새 서술자의 값을 fd2로 지정합니다. 만일 fd2가 이미 열려있으면 fd2를 닫은 후 복제가 됩니다. 역시 성공시 새 파일 서술자, 오류시 -1을 반환합니다.
+		
+		> fd2 를 fd의 File Table의 inode를 가르키도록 만듬 <br>
+
+		> 예시
+		```c
+		ret = dup2(fd, STDOUT_FILENO);
+		write(fd, str, strlen(str));
+		```
+			fd = 3 <br>
+			ret = 1 <br>
+			fd파일의 내용 출력
+
+		> 참고 https://reakwon.tistory.com/104
+
+	- execve
+
+		execve는 filename이 가리키는 파일을 실행한다. 이 파일은 바이너리 실행파일이거나 스크립트 파일이여야 한다. argv와 envp는 포인터 배열로 filename의 인자로 들어간다. 마지막에 NULL문자열을 저장해야 한다.
+
+		- 의존성
+		```c
+		#include <unistd.h>
+		```
+		- 함수원형
+		```c
+		int execve(const char *filename, char * const *argv, char * const *envp);
+		```
+	- wait, waitpid
+
+
 <br>
 <br>
 
@@ -147,53 +211,7 @@ void perror(const char *str);
 > 그것을 인수로 받은 str과 함께 출력해줌
 
 
-##### <dup, dup2 함수>
 
-dup : dup는 fd로 전달받은 파일 서술자를 복제하여 반환합니다. dup가 돌려주는 파일 서술자는 가장 낮은 서술자를 반환합니다. 성공시 새 파일 서술자, 오류시 -1을 반환합니다.
-
-dup2 : dup2는 새 서술자의 값을 fd2로 지정합니다. 만일 fd2가 이미 열려있으면 fd2를 닫은 후 복제가 됩니다. 역시 성공시 새 파일 서술자, 오류시 -1을 반환합니다.
-
-- 의존성
-```c
-#include <unistd.h>
-```
-- 함수원형
-```c
-int dup(int fd);
-```
-```c
-int dup2(int fd, int fd2);
-```
-
-- 작동방식 (dup)
-> dup 함수에 넣은 fd 의 File descriptor를 복사하여 새로운 File desciptor의 가장 낮은 FD Table 의 index로 반환
-
-- 작동방식 (dup2)
-> fd2 를 fd의 File Table의 inode를 가르키도록 만듬 <br>
-
-> 예시
-```c
-ret = dup2(fd, STDOUT_FILENO);
-write(fd, str, strlen(str));
-```
-fd = 3 <br>
-ret = 1 <br>
-fd파일의 내용 출력
-
-> 참고 https://reakwon.tistory.com/104
-
-##### execve 함수
-
-execve는 filename이 가리키는 파일을 실행한다. 이 파일은 바이너리 실행파일이거나 스크립트 파일이여야 한다. argv와 envp는 포인터 배열로 filename의 인자로 들어간다. 마지막에 NULL문자열을 저장해야 한다.
-
-- 의존성
-```c
-#include <unistd.h>
-```
-- 함수원형
-```c
-int execve(const char *filename, char * const *argv, char * const *envp);
-```
 
 <br>
 
