@@ -22,6 +22,17 @@
 
 - 여러 함수들의 사용 방법
 	- fork
+
+		- 의존성
+		```c
+		#include <unistd.h>
+		```
+		- 함수원형
+		```c
+		pid_t fork(void);
+		```
+		
+		
 	- pipe
 	- dup, dup2
 
@@ -71,6 +82,23 @@
 		int execve(const char *filename, char * const *argv, char * const *envp);
 		```
 	- wait, waitpid
+		- 의존성
+		```c
+		#include <sys/wait.h>
+		```
+		- 함수원형
+		```c
+		pid_t wait(int *status);
+		```
+		```c
+		pid_t waitpid(pid_t pid, int *status, int options);
+		```
+		
+		wait : 자식 프로세스의 종료를 부모 프로세스에서 기다리는 함수
+
+		watipid : 자식 프로세스의 종료를 부모 프로세스에서 기다리는 함수 + 옵션
+		> 참고 : https://codetravel.tistory.com/30?category=993122 https://codetravel.tistory.com/42
+		
 
 
 <br>
