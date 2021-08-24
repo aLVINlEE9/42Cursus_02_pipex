@@ -147,8 +147,38 @@ void perror(const char *str);
 > 그것을 인수로 받은 str과 함께 출력해줌
 
 
-##### <dup2 함수>
+##### <dup, dup2 함수>
 
+dup : dup는 fd로 전달받은 파일 서술자를 복제하여 반환합니다. dup가 돌려주는 파일 서술자는 가장 낮은 서술자를 반환합니다. 성공시 새 파일 서술자, 오류시 -1을 반환합니다.
+
+dup2 : dup2는 새 서술자의 값을 fd2로 지정합니다. 만일 fd2가 이미 열려있으면 fd2를 닫은 후 복제가 됩니다. 역시 성공시 새 파일 서술자, 오류시 -1을 반환합니다.
+
+- 의존성
+```c
+#include <unistd.h>
+```
+- 함수원형
+```c
+int dup(int fd);
+```
+```c
+int dup2(int fd, int fd2);
+```
+
+- 작동방식 (dup)
+> dup 함수에 넣은 fd 의 File descriptor를 복사하여 새로운 File desciptor의 가장 낮은 FD Table 의 index로 반환
+
+- 작동방시 (dup2)
+> fd2 를 fd의 File Table의 inode를 가르키도록 만듬 
+
+> 예시
+```c
+ret = dup2(fd, STDOUT_FILENO);
+write(fd, str, strlen(str));
+```
+fd = 3
+ret = 1
+fd파일의 내용 출력
 
 > 참고 https://reakwon.tistory.com/104
 ##### execve 함수
