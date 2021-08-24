@@ -11,7 +11,9 @@
  ```
 <br>
 
-## Redirection
+## Objects
+
+### Redirection
 
 #### `<` : 지정된 파일의 내용을 표준 입력으로 넘겨줌.
 
@@ -29,7 +31,7 @@
 > 결과 : [in(내용) wc ] 의 표준 출력이 out 파일에 저장됨
 
 
-## Pipe
+### Pipe
 
 #### `|` : 파이프 명령어로, 여러 프로그램을 묶어주는 역할을 함. 
 <br>
@@ -54,3 +56,66 @@ cmd1 > temp_file && cmd2 < temp_file
 > 둘은 같은 역할
 
 > https://rottk.tistory.com/entry/Redirection과-Pipe의-차이가-무엇인가요
+
+
+## Implementing
+
+### file1 to stdin
+
+`file1`을 열어서 표준 입력으로 보내는 단계. `open()`으로 얻은 `fd`를 `dup2()`를 이용해 표준입력(`STDIN_FILENO` = `0`)으로 복사하고, `file1`을 닫음.
+
+```c
+int	redirect_in(const char *file)
+{
+	int fd;
+
+	fd = open(file, O_RDONLY);
+	if (fd < 0)
+	{
+		perror(file);
+		return (-1);
+	}
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+	return (0);
+}
+```
+테스트를 위해 표준 입력의 내용을 `cat`하도록 `main()` 함수를 구성함.
+```c
+int main(int argc, char const *argv[])
+{
+	redirect_in(argv[1]);
+	execve("/bin/cat", 0, 0);
+	return (0);
+}
+```
+
+### stdout to file2
+
+표준 출력에 있는 스트림을 `file2`로 보내는 단계. 표준 출력의 내용이 파일에 기록되도록 `file2`의 `fd`를 `STDOUT_FILENO`(= `1`)에 복사하고, `file2`를 닫음.
+
+```c
+int	redirect_out(const char *file)
+{
+	int fd;
+
+	fd = open(file, O_RDWR | O_CREAT, 0644);
+	if (fd < 0)
+	{
+		perror(file);
+		return (-1);
+	}
+	dup2(fd, STDOUT_FILENO);
+	close(fd);
+	return (0);
+}
+```
+테스트 `main()` 함수
+```c
+int main(int argc, char const *argv[])
+{
+	redirect_in(argv[1]);
+	redirect_out(argv[2]);
+	return (0);
+}
+```
