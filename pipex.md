@@ -168,20 +168,32 @@ int dup2(int fd, int fd2);
 - 작동방식 (dup)
 > dup 함수에 넣은 fd 의 File descriptor를 복사하여 새로운 File desciptor의 가장 낮은 FD Table 의 index로 반환
 
-- 작동방시 (dup2)
-> fd2 를 fd의 File Table의 inode를 가르키도록 만듬 
+- 작동방식 (dup2)
+> fd2 를 fd의 File Table의 inode를 가르키도록 만듬 <br>
 
 > 예시
 ```c
 ret = dup2(fd, STDOUT_FILENO);
 write(fd, str, strlen(str));
 ```
-fd = 3
-ret = 1
+fd = 3 <br>
+ret = 1 <br>
 fd파일의 내용 출력
 
 > 참고 https://reakwon.tistory.com/104
+
 ##### execve 함수
+
+execve는 filename이 가리키는 파일을 실행한다. 이 파일은 바이너리 실행파일이거나 스크립트 파일이여야 한다. argv와 envp는 포인터 배열로 filename의 인자로 들어간다. 마지막에 NULL문자열을 저장해야 한다.
+
+- 의존성
+```c
+#include <unistd.h>
+```
+- 함수원형
+```c
+int execve(const char *filename, char * const *argv, char * const *envp);
+```
 
 <br>
 
