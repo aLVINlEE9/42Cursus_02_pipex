@@ -11,8 +11,8 @@
  ```
 ### 사전지식
 
-- 멀티 프로세스 프로그래밍
-
+- 멀티 프로세스 프로그래밍 
+	- Inter Process Communication
 
 - 파이프 시스템 콜
 
@@ -55,6 +55,7 @@
 
 		
 		> 참고 : https://reakwon.tistory.com/80
+		>  https://typingdog.tistory.com/161?category=955950
 	- dup, dup2
 
 		- 의존성
@@ -129,10 +130,13 @@
 		pid_t waitpid(pid_t pid, int *status, int options);
 		```
 		
-		wait : 자식 프로세스의 종료를 부모 프로세스에서 기다리는 함수
+		wait : wait 함수를 실행 함과 동시에 현재 메모리 상에 존재하는 종료 '처리' 된 자식 프로세스를 탐지하여 순서대로 반환 값을 얻어내고 종료 '처리'된 자식 프로세스를 소멸시킨다.
+			종료 처리된 자식 프로세스가 없다면 부모 프로세스의 실행 흐름이 멈추고 대기한다는 소리이다.
 
-		watipid : 자식 프로세스의 종료를 부모 프로세스에서 기다리는 함수 + 옵션
+		watipid : waitpid 함수는 wait과 본질적인 역할은 동일하나, 블로킹이 없다!!!
 		> 참고 : https://codetravel.tistory.com/30?category=993122 https://codetravel.tistory.com/42
+		> https://typingdog.tistory.com/159?category=955950
+		> https://codetravel.tistory.com/42
 		
 
 
