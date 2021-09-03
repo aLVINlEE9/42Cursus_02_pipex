@@ -272,7 +272,7 @@ void perror(const char *str);
 > 그리고 역시 전역변수 sys_errlist[errno]에 적절한 오류 메시지가 저장되어 있다.
 
 > 그것을 인수로 받은 str과 함께 출력해줌
-
+ 
 
 
 
