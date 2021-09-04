@@ -6,7 +6,7 @@
 /*   By: seungsle <seungsle@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/03 18:08:38 by seungsle          #+#    #+#             */
-/*   Updated: 2021/09/03 18:26:09 by seungsle         ###   ########.fr       */
+/*   Updated: 2021/09/04 13:51:53 by seungsle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int main(int argc, char **argv, char **envp)
 		pid = fork();
 		if (pid < 0)
 		{
+
 		}
 		else
 	}
