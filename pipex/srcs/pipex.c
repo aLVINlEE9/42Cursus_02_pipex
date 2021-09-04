@@ -6,25 +6,30 @@
 /*   By: seungsle <seungsle@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/03 18:08:38 by seungsle          #+#    #+#             */
-/*   Updated: 2021/09/04 18:17:06 by seungsle         ###   ########.fr       */
+/*   Updated: 2021/09/04 18:20:26 by seungsle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int cmd_child(int *fd_pipe)
+int	execute(char *cmd)
+{
+	execve(cmd, 0, 0);
+}
+
+int cmd_child(int *fd_pipe, char *cmd)
 {
 	dup2(fd_pipe[1], STDOUT_FILENO);
 	close(fd_pipe[0]);
-	execve("/bin/cat", 0, 0);
+	execute(cmd);
 	return (0);
 }
 
-int	cmd_parent(int *fd_pipe)
+int	cmd_parent(int *fd_pipe, char *cmd)
 {
 	dup2(fd_pipe[0], STDIN_FILENO);
 	close(fd_pipe[1]);
-	execve("/bin/cat", 0, 0);
+	execute(cmd);
 	return (0);
 }
 
@@ -57,12 +62,12 @@ int main(int argc, char **argv, char **envp)
 	{
 		printf("child process\n");
 		redirect_in(argv);
-		cmd_child(fd_pipe);
+		cmd_child(fd_pipe, argv[2]);
 	}
 	waitpid(pid, NULL, 0);
 	printf("parent process\n");
 	redirect_out(argv);
-	cmd_parent(fd_pipe);
+	cmd_parent(fd_pipe, argv[3]);
 	close(fd_pipe[0]);
 	close(fd_pipe[1]);
 }
