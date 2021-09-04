@@ -18,7 +18,7 @@
 
 
 - file descriptor 관리 시스템
-
+	- '>' 은 
 
 - 여러 함수들의 사용 방법
 	- fork
