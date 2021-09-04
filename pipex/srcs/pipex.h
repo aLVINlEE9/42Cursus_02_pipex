@@ -6,9 +6,11 @@
 /*   By: seungsle <seungsle@student.42seoul.kr      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/03 18:15:53 by seungsle          #+#    #+#             */
-/*   Updated: 2021/09/03 18:16:15 by seungsle         ###   ########.fr       */
+/*   Updated: 2021/09/04 14:32:10 by seungsle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
-
+#include <fcntl.h>
+#include <stdio.h>
+#include <sys/wait.h>
