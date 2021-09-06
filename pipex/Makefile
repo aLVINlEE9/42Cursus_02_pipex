@@ -6,14 +6,14 @@
 #    By: seungsle <seungsle@student.42seoul.kr      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/06 17:48:47 by seungsle          #+#    #+#              #
-#    Updated: 2021/09/06 17:56:28 by seungsle         ###   ########.fr        #
+#    Updated: 2021/09/06 18:46:54 by seungsle         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = pipex.a
 PROG = pipex
 
-SRCS 	= srcs/pipex.c srcs/util_cmd.c srcs/util_redirect.c
+SRCS 	= srcs/pipex.c srcs/util_cmd.c srcs/util_redirect.c srcs/util_error.c
 OBJS 	= ${SRCS:.c=.o}
 MAIN	= srcs/pipex.c
 

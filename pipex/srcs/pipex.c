@@ -6,7 +6,7 @@
 /*   By: seungsle <seungsle@student.42seoul.kr      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 16:07:44 by seungsle          #+#    #+#             */
-/*   Updated: 2021/09/06 18:05:06 by seungsle         ###   ########.fr       */
+/*   Updated: 2021/09/06 19:16:16 by seungsle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,30 @@
 static int	parent_process(char **argv, char **envp, int *fd_pipe)
 {
 	char	**cmd;
+	char	*path;
 
 	redirect_out(argv[4], fd_pipe);
 	cmd = get_cmd(argv[3]);
-	if (execve(get_cmd_path(cmd[0], envp), cmd, 0))
-		error("Error", 2);
+	path = get_cmd_path(cmd[0], envp);
+	if (execve(path, cmd, 0))
+		error(cmd, path, "Error", 2);
+	free(path);
+	free_util(cmd);
 	return (0);
 }
 
 static int	child_process(char **argv, char **envp, int *fd_pipe)
 {
 	char	**cmd;
+	char	*path;
 
 	redirect_in(argv[1], fd_pipe);
 	cmd = get_cmd(argv[2]);
-	if (execve(get_cmd_path(cmd[0], envp), cmd, 0) == -1)
-		error("Error", 2);
+	path = get_cmd_path(cmd[0], envp);
+	if (execve(path, cmd, 0) == -1)
+		error(cmd, path, "Error", 2);
+	free(path);
+	free_util(cmd);
 	return (0);
 }
 
@@ -51,5 +59,5 @@ int	main(int argc, char **argv, char **envp)
 		close(pipe_fd[1]);
 	}
 	else
-		error("Bad argument", 1);
+		error(NULL, 0, "Bad argument", 1);
 }

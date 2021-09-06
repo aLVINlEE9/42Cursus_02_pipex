@@ -1,35 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   util_redirect.c                                    :+:      :+:    :+:   */
+/*   util_error.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seungsle <seungsle@student.42seoul.kr      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/06 17:01:50 by seungsle          #+#    #+#             */
-/*   Updated: 2021/09/06 18:33:27 by seungsle         ###   ########.fr       */
+/*   Created: 2021/09/06 18:44:36 by seungsle          #+#    #+#             */
+/*   Updated: 2021/09/06 19:21:07 by seungsle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-int	redirect_in(char *argv, int *fd_pipe)
+void	free_util(char **cmd)
 {
-	int	fd_filein;
+	int	i;
 
-	fd_filein = open(argv, O_RDONLY);
-	dup2(fd_filein, STDIN_FILENO);
-	dup2(fd_pipe[1], STDOUT_FILENO);
-	close(fd_pipe[0]);
-	return (0);
+	i = 0;
+	while (cmd[i++])
+		free(cmd[i]);
+	free(cmd);
 }
 
-int	redirect_out(char *argv, int *fd_pipe)
+void	error(char **cmd, char *path, char *str, int f)
 {
-	int	fd_fileout;
-
-	fd_fileout = open(argv, O_CREAT | O_WRONLY | O_TRUNC, 0777);
-	dup2(fd_fileout, STDOUT_FILENO);
-	dup2(fd_pipe[0], STDIN_FILENO);
-	close(fd_pipe[1]);
-	return (0);
+	if (f == 1)
+		ft_putstr_fd(str, 2);
+	else if (f == 2)
+	{
+		free(path);
+		free_util(cmd);
+		perror(str);
+	}
+	exit(0);
 }
