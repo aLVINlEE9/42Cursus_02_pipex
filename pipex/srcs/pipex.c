@@ -6,19 +6,21 @@
 /*   By: seungsle <seungsle@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/03 18:08:38 by seungsle          #+#    #+#             */
-/*   Updated: 2021/09/06 15:22:08 by seungsle         ###   ########.fr       */
+/*   Updated: 2021/09/06 15:29:30 by seungsle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	find_path(char *cmd, char **evnp)
+char	*find_path(char *cmd, char **envp)
 {
 	char **paths;
 	char *path_push;
 	char *path;
+	int	i;
 
-	while (!strnstr(envp[i], "PATH"))
+	i = 0;
+	while (!strnstr(envp[i], "PATH", 4))
 		i++;
 	paths = ft_split(envp[i] + 5, ':');
 	while (paths[i++])
@@ -33,8 +35,11 @@ int	find_path(char *cmd, char **evnp)
 
 int	execute(char *cmd, char **envp)
 {
-	cmd = ft_split(cmd, ' ');
-	execve(find_path(cmd[0], envp), cmd, 0);
+	char	**cmd_arr;
+
+	cmd_arr = ft_split(cmd, ' ');
+	execve(find_path(cmd_arr[0], envp), cmd_arr, 0);
+	return (0);
 }
 
 int cmd_child(int *fd_pipe, char *cmd, char **envp)
