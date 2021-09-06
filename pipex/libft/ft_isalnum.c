@@ -1,22 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seungsle <seungsle@student.42seoul.kr      +#+  +:+       +#+        */
+/*   By: seungsle <seungsle@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/03 18:15:53 by seungsle          #+#    #+#             */
-/*   Updated: 2021/09/05 15:49:50 by seungsle         ###   ########.fr       */
+/*   Created: 2021/05/06 17:27:52 by seungsle          #+#    #+#             */
+/*   Updated: 2021/05/13 12:48:44 by seungsle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
-
-#include <unistd.h>
-#include <fcntl.h>
-#include <stdio.h>
-#include <sys/wait.h>
-# include "../libft/libft.h"
-
-#endif
+int	ft_isalnum(int c)
+{
+	if (c >= 'a' && c <= 'z')
+	{
+		return (1);
+	}
+	else if (c >= 'A' && c <= 'Z')
+	{
+		return (1);
+	}
+	else if (c >= '0' && c <= '9')
+	{
+		return (1);
+	}
+	return (0);
+}

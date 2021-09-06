@@ -1,5 +1,7 @@
-12345
-1234
-123
-12
-1
+total 144
+-rwxr-xr-x  1 iseungsu  staff  50032  9  4 18:16 a.out
+-rw-r--r--  1 iseungsu  staff     20  9  4 17:35 in
+-rwxr-xr-x  1 iseungsu  staff     20  9  4 18:16 out
+-rw-r--r--  1 iseungsu  staff   1868  9  4 18:20 pipex.c
+-rw-r--r--  1 iseungsu  staff    972  9  4 14:32 pipex.h
+-rw-r--r--  1 iseungsu  staff    409  9  5 14:33 test.c

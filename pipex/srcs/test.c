@@ -20,11 +20,13 @@ int redirect_out(char **argv)
 	return(0);
 }
 
-int main(int argc, char **argv)
+int main(int argc, char **argv, char **envp)
 {
 	char buff[100];
+	char *str[2];
 
 	redirect_in(argv);
 	redirect_out(argv);
-	execve("/bin/cat", 0, 0);
+	printf("%s", *envp);
+	//execve(str[0], str, 0);
 }

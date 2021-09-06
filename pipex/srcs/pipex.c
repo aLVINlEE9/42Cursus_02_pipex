@@ -6,22 +6,28 @@
 /*   By: seungsle <seungsle@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/03 18:08:38 by seungsle          #+#    #+#             */
-/*   Updated: 2021/09/04 18:20:26 by seungsle         ###   ########.fr       */
+/*   Updated: 2021/09/05 16:05:33 by seungsle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	execute(char *cmd)
+int	find_path(char *cmd, char **evnp)
 {
-	execve(cmd, 0, 0);
+
 }
 
-int cmd_child(int *fd_pipe, char *cmd)
+int	execute(char *cmd, char **envp)
+{
+	cmd = ft_split(cmd, ' ');
+	execve(find_path(cmd[0], envp), cmd, 0);
+}
+
+int cmd_child(int *fd_pipe, char *cmd, char **envp)
 {
 	dup2(fd_pipe[1], STDOUT_FILENO);
 	close(fd_pipe[0]);
-	execute(cmd);
+	execute(cmd, envp);
 	return (0);
 }
 
@@ -62,7 +68,7 @@ int main(int argc, char **argv, char **envp)
 	{
 		printf("child process\n");
 		redirect_in(argv);
-		cmd_child(fd_pipe, argv[2]);
+		cmd_child(fd_pipe, argv[2], envp);
 	}
 	waitpid(pid, NULL, 0);
 	printf("parent process\n");
