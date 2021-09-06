@@ -6,7 +6,7 @@
 /*   By: seungsle <seungsle@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/03 18:08:38 by seungsle          #+#    #+#             */
-/*   Updated: 2021/09/05 16:05:33 by seungsle         ###   ########.fr       */
+/*   Updated: 2021/09/06 15:01:16 by seungsle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 int	find_path(char *cmd, char **evnp)
 {
-
+	while (!strnstr(envp[i], "PATH"))
+		i++;
+	
 }
 
 int	execute(char *cmd, char **envp)
