@@ -6,11 +6,11 @@
 /*   By: seungsle <seungsle@student.42seoul.kr      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 16:07:44 by seungsle          #+#    #+#             */
-/*   Updated: 2021/09/06 17:41:45 by seungsle         ###   ########.fr       */
+/*   Updated: 2021/09/06 18:05:06 by seungsle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "../includes/pipex.h"
 
 static int	parent_process(char **argv, char **envp, int *fd_pipe)
 {
