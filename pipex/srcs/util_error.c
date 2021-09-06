@@ -6,7 +6,7 @@
 /*   By: seungsle <seungsle@student.42seoul.kr      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 18:44:36 by seungsle          #+#    #+#             */
-/*   Updated: 2021/09/06 19:21:07 by seungsle         ###   ########.fr       */
+/*   Updated: 2021/09/06 19:52:40 by seungsle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,5 @@ void	error(char **cmd, char *path, char *str, int f)
 		free_util(cmd);
 		perror(str);
 	}
-	exit(0);
+	exit(EXIT_FAILURE);
 }
