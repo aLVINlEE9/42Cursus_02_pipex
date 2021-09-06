@@ -1,102 +1,96 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   re_pipex.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seungsle <seungsle@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: seungsle <seungsle@student.42seoul.kr      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/03 18:08:38 by seungsle          #+#    #+#             */
-/*   Updated: 2021/09/06 16:03:42 by seungsle         ###   ########.fr       */
+/*   Created: 2021/09/06 16:07:44 by seungsle          #+#    #+#             */
+/*   Updated: 2021/09/06 16:45:00 by seungsle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-char	*find_path(char *cmd, char **envp)
+char *get_cmd_path(char *argv, char **envp)
 {
-	char **paths;
-	char *path_push;
-	char *path;
 	int	i;
+	char **paths;
+	char *path_join;
+	char *path;
 
 	i = 0;
-	while (!strnstr(envp[i], "PATH", 4))
+	while(!ft_strnstr(envp[i], "PATH", 4))
 		i++;
 	paths = ft_split(envp[i] + 5, ':');
+	i = 0;
 	while (paths[i++])
 	{
-		path_push = ft_strjoin(paths[i], "/");
-		path = ft_strjoin(path_push, cmd);
-		//printf("%s\n", path);
-		if (access(path, F_OK))
-			return path;
+		path_join = ft_strjoin(paths[i], "/");
+		path = ft_strjoin(path_join, argv);
+		free(path_join);
+		if (access(path, F_OK) == 0)
+			return (path);
 	}
 	return (0);
 }
 
-int	execute(char *cmd, char **envp)
+char **get_cmd(char *argv)
 {
-	char	**cmd_arr;
-
-	cmd_arr = ft_split(cmd, ' ');
-	execve(find_path(cmd_arr[0], envp), cmd_arr, 0);
-	return (0);
+	return (ft_split(argv, ' '));
 }
 
-int cmd_child(int *fd_pipe, char *cmd, char **envp)
+int	redirect_in(char *argv, int *fd_pipe)
 {
-	//printf("cmd_child\n");
+	int	fd_filein;
+
+	fd_filein = open(argv, O_RDONLY);
+	dup2(fd_filein, STDIN_FILENO);
 	dup2(fd_pipe[1], STDOUT_FILENO);
 	close(fd_pipe[0]);
-	execute(cmd, envp);
 	return (0);
 }
 
-int	cmd_parent(int *fd_pipe, char *cmd, char **envp)
+int	redirect_out(char *argv, int *fd_pipe)
 {
+	int	fd_fileout;
+
+	fd_fileout = open(argv, O_CREAT | O_WRONLY | O_TRUNC, 0777);
+	dup2(fd_fileout, STDOUT_FILENO);
 	dup2(fd_pipe[0], STDIN_FILENO);
 	close(fd_pipe[1]);
-	execute(cmd, envp);
 	return (0);
 }
 
-int redirect_in(char **argv)
+int	parent_process(char **argv, char **envp, int *fd_pipe)
 {
-	int	file_in;
+	char **cmd;
 
-	file_in = open(argv[1], O_RDONLY);
-	dup2(file_in, STDIN_FILENO);
-	//printf("red_in\n");
+	redirect_out(argv[4], fd_pipe);
+	cmd = get_cmd(argv[3]);
+	execve(get_cmd_path(cmd[0], envp), cmd, 0);
 	return (0);
 }
 
-int	redirect_out(char **argv)
+int	child_process(char **argv, char **envp, int *fd_pipe)
 {
-	int file_out;
+	char	**cmd;
 
-	file_out = open(argv[4], O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	dup2(file_out, STDOUT_FILENO);
-	printf("red_out\n");
+	redirect_in(argv[1], fd_pipe);
+	cmd = get_cmd(argv[2]);
+	execve(get_cmd_path(cmd[0], envp), cmd, 0);
 	return (0);
 }
 
 int main(int argc, char **argv, char **envp)
 {
-	int	fd_pipe[2]; // pipe array
 	int	pid;
+	int	pipe_fd[2];
 
-	pipe(fd_pipe);
+	pipe(pipe_fd);
 	pid = fork();
 	if (pid == 0)
-	{
-		//printf("child process\n");
-		redirect_in(argv);
-		cmd_child(fd_pipe, argv[2], envp);
-	}
+		child_process(argv, envp, pipe_fd);
 	waitpid(pid, NULL, 0);
-	//printf("parent process\n");
-	redirect_out(argv);
-	cmd_parent(fd_pipe, argv[3], envp);
-	close(fd_pipe[0]);
-	close(fd_pipe[1]);
+	parent_process(argv, envp, pipe_fd);
 }
