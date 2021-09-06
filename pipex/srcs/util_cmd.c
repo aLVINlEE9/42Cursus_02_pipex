@@ -6,7 +6,7 @@
 /*   By: seungsle <seungsle@student.42seoul.kr      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 17:01:03 by seungsle          #+#    #+#             */
-/*   Updated: 2021/09/06 17:03:51 by seungsle         ###   ########.fr       */
+/*   Updated: 2021/09/06 17:44:13 by seungsle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,12 @@ char	*get_cmd_path(char *argv, char **envp)
 char	**get_cmd(char *argv)
 {
 	return (ft_split(argv, ' '));
+}
+
+void	error(char *str, int f)
+{
+	if (f == 1)
+		ft_putstr_fd(str, 2);
+	else if (f == 2)
+		perror(str);
 }
