@@ -6,7 +6,7 @@
 #    By: seungsle <seungsle@student.42seoul.kr      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/06 17:48:47 by seungsle          #+#    #+#              #
-#    Updated: 2021/09/06 18:46:54 by seungsle         ###   ########.fr        #
+#    Updated: 2021/09/08 08:22:40 by seungsle         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ $(NAME):	${OBJS}
 					@cp libft/libft.a ./$(NAME)
 					@ar -rcs ${NAME} ${OBJS}
 					@$(CC) $(NAME) ${MAIN} -o ${PROG}
-					@echo "\033[32mPipex Compiled! ᕦ(\033[31m♥\033[32m_\033[31m♥\033[32m)ᕤ\n"
+					@echo "\033[32mPipex Compiled!\n"
 
 all: 		${NAME}
 
@@ -43,7 +43,7 @@ fclean: 	clean
 					@make fclean -C ./libft
 					@rm -f $(NAME)
 					@rm -f ${PROG}
-					@echo "\n\033[31mDeleting EVERYTHING! ⌐(ಠ۾ಠ)¬\n"
+					@echo "\n\033[31mDeleting EVERYTHING!\n"
 
 re:			fclean all
 
