@@ -6,7 +6,7 @@
 /*   By: seungsle <seungsle@student.42seoul.kr      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 16:07:44 by seungsle          #+#    #+#             */
-/*   Updated: 2021/09/06 19:16:16 by seungsle         ###   ########.fr       */
+/*   Updated: 2021/09/07 14:04:04 by seungsle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	parent_process(char **argv, char **envp, int *fd_pipe)
 	redirect_out(argv[4], fd_pipe);
 	cmd = get_cmd(argv[3]);
 	path = get_cmd_path(cmd[0], envp);
-	if (execve(path, cmd, 0))
+	if (execve(path, cmd, envp))
 		error(cmd, path, "Error", 2);
 	free(path);
 	free_util(cmd);
@@ -35,7 +35,7 @@ static int	child_process(char **argv, char **envp, int *fd_pipe)
 	redirect_in(argv[1], fd_pipe);
 	cmd = get_cmd(argv[2]);
 	path = get_cmd_path(cmd[0], envp);
-	if (execve(path, cmd, 0) == -1)
+	if (execve(path, cmd, envp) == -1)
 		error(cmd, path, "Error", 2);
 	free(path);
 	free_util(cmd);
@@ -47,6 +47,7 @@ int	main(int argc, char **argv, char **envp)
 	int	pid;
 	int	pipe_fd[2];
 
+	exit(EXIT_SUCCESS);
 	if (argc == 5)
 	{
 		pipe(pipe_fd);
