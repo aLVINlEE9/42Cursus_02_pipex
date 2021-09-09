@@ -6,7 +6,7 @@
 /*   By: seungsle <seungsle@student.42seoul.kr      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 16:07:44 by seungsle          #+#    #+#             */
-/*   Updated: 2021/09/08 08:27:58 by seungsle         ###   ########.fr       */
+/*   Updated: 2021/09/09 09:39:25 by seungsle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	int	pid;
 	int	pipe_fd[2];
+	int	status;
 
 	if (argc == 5)
 	{
@@ -53,7 +54,13 @@ int	main(int argc, char **argv, char **envp)
 		pid = fork();
 		if (pid == 0)
 			child_process(argv, envp, pipe_fd);
-		waitpid(pid, NULL, 0);
+		waitpid(pid, &status, 0);
+		if (status != 0)
+		{
+			close(pipe_fd[0]);
+			close(pipe_fd[1]);
+			error(NULL, NULL, "Child Process Error", 3);
+		}
 		parent_process(argv, envp, pipe_fd);
 		close(pipe_fd[0]);
 		close(pipe_fd[1]);

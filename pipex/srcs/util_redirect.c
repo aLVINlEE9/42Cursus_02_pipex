@@ -6,7 +6,7 @@
 /*   By: seungsle <seungsle@student.42seoul.kr      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 17:01:50 by seungsle          #+#    #+#             */
-/*   Updated: 2021/09/08 08:25:55 by seungsle         ###   ########.fr       */
+/*   Updated: 2021/09/09 09:37:33 by seungsle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ int	redirect_in(char *argv, int *fd_pipe)
 
 	fd_filein = open(argv, O_RDONLY);
 	if (fd_filein < 0)
-		error(NULL, NULL, "Open Error", 2);
+	{
+		close(fd_filein);
+		error(NULL, NULL, "Open Error", 3);
+	}
 	dup2(fd_filein, STDIN_FILENO);
 	dup2(fd_pipe[1], STDOUT_FILENO);
 	close(fd_pipe[0]);
@@ -31,7 +34,10 @@ int	redirect_out(char *argv, int *fd_pipe)
 
 	fd_fileout = open(argv, O_CREAT | O_WRONLY | O_TRUNC, 0777);
 	if (fd_fileout < 0)
-		error(NULL, NULL, "Open Error", 2);
+	{
+		close(fd_fileout);
+		error(NULL, NULL, "Open Error", 3);
+	}
 	dup2(fd_fileout, STDOUT_FILENO);
 	dup2(fd_pipe[0], STDIN_FILENO);
 	close(fd_pipe[1]);

@@ -6,7 +6,7 @@
 /*   By: seungsle <seungsle@student.42seoul.kr      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/06 18:44:36 by seungsle          #+#    #+#             */
-/*   Updated: 2021/09/06 19:52:40 by seungsle         ###   ########.fr       */
+/*   Updated: 2021/09/09 09:33:55 by seungsle         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@ void	error(char **cmd, char *path, char *str, int f)
 	{
 		free(path);
 		free_util(cmd);
+		perror(str);
+	}
+	else if (f == 3)
+	{
 		perror(str);
 	}
 	exit(EXIT_FAILURE);
